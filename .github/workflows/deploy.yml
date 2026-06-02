@@ -39,13 +39,25 @@ jobs:
           echo "new=$NEW_VERSION" >> "$GITHUB_OUTPUT"
           echo "Versão: $CURRENT → $NEW_VERSION"
 
+      - name: Validar secrets FTP
+        run: |
+          missing=""
+          [ -z "${{ secrets.FTP_HOST }}" ] && missing="${missing}FTP_HOST "
+          [ -z "${{ secrets.FTP_USERNAME }}" ] && missing="${missing}FTP_USERNAME "
+          [ -z "${{ secrets.FTP_PASSWORD }}" ] && missing="${missing}FTP_PASSWORD "
+          if [ -n "$missing" ]; then
+            echo "::error::Secrets ausentes no repositório: $missing"
+            echo "Crie em: Settings → Secrets and variables → Actions → New repository secret"
+            exit 1
+          fi
+
       - name: Deploy to InfinityFree (FTP → /htdocs)
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
           server: ${{ secrets.FTP_HOST }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          port: ${{ secrets.FTP_PORT || 21 }}
+          port: 21
           protocol: ftp
           local-dir: ./
           server-dir: /htdocs/
