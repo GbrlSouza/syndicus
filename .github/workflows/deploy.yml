@@ -8,8 +8,8 @@ on:
   workflow_dispatch:
     inputs:
       ftp_password:
-        description: 'Senha FTP (opcional — use só para teste se o secret falhar)'
-        required: false
+        description: 'Senha FTP da InfinityFree (obrigatório no run manual)'
+        required: true
         type: string
 
 concurrency:
@@ -25,7 +25,6 @@ jobs:
   deploy:
     if: ${{ !contains(github.event.head_commit.message, '[skip ci]') }}
     runs-on: ubuntu-latest
-    environment: syndicus-deploy
 
     permissions:
       contents: write
@@ -33,19 +32,31 @@ jobs:
     steps:
       - name: Verificar senha FTP
         env:
-          FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
+          FTP_SECRET: ${{ secrets.FTP_PASSWORD }}
+          FTP_VARIABLE: ${{ vars.FTP_PASSWORD }}
         run: |
           INPUT="${{ github.event.inputs.ftp_password }}"
-          if [ -z "$FTP_PASSWORD" ] && [ -z "$INPUT" ]; then
-            echo "::error::Senha FTP não disponível no runner."
+          if [ -n "$INPUT" ]; then
+            echo "::add-mask::$INPUT"
+            echo "origem=input manual"
+          elif [ -n "$FTP_SECRET" ]; then
+            echo "origem=secret FTP_PASSWORD"
+          elif [ -n "$FTP_VARIABLE" ]; then
+            echo "origem=variable FTP_PASSWORD (prefira Secret por segurança)"
+          else
+            echo "::error::Senha FTP não chegou ao GitHub Actions."
             echo ""
-            echo "Configure UMA das opções:"
-            echo "  A) Settings → Environments → syndicus-deploy → Environment secrets → FTP_PASSWORD"
-            echo "  B) Settings → Secrets and variables → Actions → Repository secrets → FTP_PASSWORD"
-            echo "  C) Actions → Run workflow → preencha o campo 'Senha FTP' (teste manual)"
+            echo "Você criou em VARIABLES em vez de SECRETS? Isso é o erro mais comum."
+            echo ""
+            echo "Correto: Settings → Secrets and variables → Actions"
+            echo "  aba: Repository secrets → New repository secret"
+            echo "  Name: FTP_PASSWORD"
+            echo ""
+            echo "Ou rode manualmente: Actions → Deploy Syndicus → Run workflow"
+            echo "  (preencha o campo Senha FTP — obrigatório no manual)"
             exit 1
           fi
-          echo "Senha FTP detectada."
+          echo "Senha FTP OK."
 
       - name: Checkout
         uses: actions/checkout@v4
@@ -71,7 +82,7 @@ jobs:
         with:
           server: ${{ env.FTP_HOST }}
           username: ${{ env.FTP_USERNAME }}
-          password: ${{ github.event.inputs.ftp_password != '' && github.event.inputs.ftp_password || secrets.FTP_PASSWORD }}
+          password: ${{ github.event.inputs.ftp_password || secrets.FTP_PASSWORD || vars.FTP_PASSWORD }}
           port: ${{ env.FTP_PORT }}
           protocol: ftp
           local-dir: ./
