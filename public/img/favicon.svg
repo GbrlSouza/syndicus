@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" role="img" aria-label="Syndicus">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e4a72"/>
+      <stop offset="100%" stop-color="#0f2d46"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#5eead4"/>
+      <stop offset="100%" stop-color="#14b8a6"/>
+    </linearGradient>
+  </defs>
+  <rect width="32" height="32" rx="7" fill="url(#bg)"/>
+  <path fill="#f1f5f9" d="M5 23V13h6v10H5zm8-5V9h6v14h-6zm8 3V15h6v8h-6z"/>
+  <rect x="6.5" y="14.5" width="2.2" height="2.2" rx=".45" fill="url(#accent)"/>
+  <rect x="6.5" y="18" width="2.2" height="2.2" rx=".45" fill="#94a3b8"/>
+  <rect x="14.5" y="11.5" width="2.2" height="2.2" rx=".45" fill="url(#accent)"/>
+  <rect x="14.5" y="15" width="2.2" height="2.2" rx=".45" fill="#94a3b8"/>
+  <rect x="14.5" y="18.5" width="2.2" height="2.2" rx=".45" fill="#94a3b8"/>
+  <rect x="22.5" y="16.5" width="2.2" height="2.2" rx=".45" fill="url(#accent)"/>
+  <rect x="22.5" y="19.5" width="2.2" height="2.2" rx=".45" fill="#94a3b8"/>
+  <rect x="5" y="23.5" width="22" height="1.8" rx=".9" fill="url(#accent)"/>
+</svg>

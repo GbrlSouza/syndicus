@@ -1,0 +1,69 @@
+# Incrementa VERSION, envia arquivos para /htdocs na InfinityFree (mesmo destino do filemanager.ai)
+name: Deploy Syndicus
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-syndicus
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    if: ${{ !contains(github.event.head_commit.message, '[skip ci]') }}
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Bump patch version
+        id: version
+        run: |
+          CURRENT=$(tr -d '[:space:]' < VERSION)
+          MAJOR=$(echo "$CURRENT" | cut -d. -f1)
+          MINOR=$(echo "$CURRENT" | cut -d. -f2)
+          PATCH=$(echo "$CURRENT" | cut -d. -f3)
+          PATCH=$((PATCH + 1))
+          NEW_VERSION="${MAJOR}.${MINOR}.${PATCH}"
+          echo "$NEW_VERSION" > VERSION
+          echo "previous=$CURRENT" >> "$GITHUB_OUTPUT"
+          echo "new=$NEW_VERSION" >> "$GITHUB_OUTPUT"
+          echo "Versão: $CURRENT → $NEW_VERSION"
+
+      - name: Deploy to InfinityFree (FTP → /htdocs)
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_HOST }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          port: ${{ secrets.FTP_PORT || 21 }}
+          protocol: ftp
+          local-dir: ./
+          server-dir: /htdocs/
+          exclude: |
+            **/.git*
+            **/.github/**
+            **/.gitignore
+            **/DEPLOY.md
+            **/README.md
+            **/LICENSE
+            **/.env
+            **/app/.env
+            **/.ftp-deploy-sync-state.json
+
+      - name: Commit version bump
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add VERSION
+          git commit -m "chore: release v${{ steps.version.outputs.new }} [skip ci]"
+          git push

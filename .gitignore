@@ -1,0 +1,5 @@
+.env
+app/.env
+.ftp-deploy-sync-state.json
+.DS_Store
+Thumbs.db
