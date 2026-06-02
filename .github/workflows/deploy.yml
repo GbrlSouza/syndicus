@@ -1,4 +1,4 @@
-# Incrementa VERSION, envia arquivos para /htdocs na InfinityFree (mesmo destino do filemanager.ai)
+# Incrementa VERSION, envia arquivos para /htdocs na InfinityFree
 name: Deploy Syndicus
 
 on:
@@ -6,6 +6,11 @@ on:
     branches:
       - main
   workflow_dispatch:
+    inputs:
+      ftp_password:
+        description: 'Senha FTP (opcional — use só para teste se o secret falhar)'
+        required: false
+        type: string
 
 concurrency:
   group: deploy-syndicus
@@ -20,18 +25,27 @@ jobs:
   deploy:
     if: ${{ !contains(github.event.head_commit.message, '[skip ci]') }}
     runs-on: ubuntu-latest
+    environment: syndicus-deploy
 
     permissions:
       contents: write
 
     steps:
-      - name: Exigir secret FTP_PASSWORD
-        if: ${{ secrets.FTP_PASSWORD == '' }}
+      - name: Verificar senha FTP
+        env:
+          FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
         run: |
-          echo "::error::Secret FTP_PASSWORD não encontrado."
-          echo "Crie em: Settings → Secrets and variables → Actions → New repository secret"
-          echo "Nome exato: FTP_PASSWORD"
-          exit 1
+          INPUT="${{ github.event.inputs.ftp_password }}"
+          if [ -z "$FTP_PASSWORD" ] && [ -z "$INPUT" ]; then
+            echo "::error::Senha FTP não disponível no runner."
+            echo ""
+            echo "Configure UMA das opções:"
+            echo "  A) Settings → Environments → syndicus-deploy → Environment secrets → FTP_PASSWORD"
+            echo "  B) Settings → Secrets and variables → Actions → Repository secrets → FTP_PASSWORD"
+            echo "  C) Actions → Run workflow → preencha o campo 'Senha FTP' (teste manual)"
+            exit 1
+          fi
+          echo "Senha FTP detectada."
 
       - name: Checkout
         uses: actions/checkout@v4
@@ -57,7 +71,7 @@ jobs:
         with:
           server: ${{ env.FTP_HOST }}
           username: ${{ env.FTP_USERNAME }}
-          password: ${{ secrets.FTP_PASSWORD }}
+          password: ${{ github.event.inputs.ftp_password != '' && github.event.inputs.ftp_password || secrets.FTP_PASSWORD }}
           port: ${{ env.FTP_PORT }}
           protocol: ftp
           local-dir: ./

@@ -1,54 +1,77 @@
 # Deploy automático (GitHub Actions → InfinityFree)
 
-O link [filemanager.ai](https://filemanager.ai/new3/index.php?home=%2Fhtdocs) é o **gerenciador web** dos arquivos em `/htdocs`. Ele **não possui API** para upload automático.
+## Por que o secret “não era lido”
 
-O workflow `.github/workflows/deploy.yml` faz a mesma coisa via **FTP** (permitido pela InfinityFree): envia os arquivos para `/htdocs` a cada push na branch `main`.
+No GitHub Actions **não dá** para testar secrets assim: `[ -z "${{ secrets.FTP_PASSWORD }}" ]` no bash — o valor chega **vazio** de propósito.
 
-## O que o workflow faz
+O workflow agora:
 
-1. Incrementa o patch em `VERSION` (ex.: `1.0.0` → `1.0.1`)
-2. Faz upload do projeto para `/htdocs/` no servidor
-3. Grava o novo número de versão no GitHub (`[skip ci]` evita loop infinito)
+1. Usa o **Environment** `syndicus-deploy` (forma mais confiável)
+2. Valida a senha com `env: FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}`
+3. Permite teste manual com senha no **Run workflow**
 
-A versão exibida no site vem do arquivo `VERSION` (lido em `app/settings.php`).
+---
 
-## Configurar secrets no GitHub
+## Passo a passo (faça nesta ordem)
 
-Repositório → **Settings** → **Secrets and variables** → **Actions** → **New repository secret**
+### 1. Criar o Environment
 
-Host e usuário FTP já estão no workflow (`.github/workflows/deploy.yml`).
+1. Abra: `https://github.com/gbrlsouza/syndicus/settings/environments`
+2. **New environment** → nome exato: `syndicus-deploy`
+3. **Configure environment** → em **Environment secrets** → **Add secret**
+   - Name: `FTP_PASSWORD`
+   - Value: sua senha FTP da InfinityFree
+4. Salve (não precisa de “Required reviewers” para testar)
 
-Você só precisa criar **1 secret**:
+### 2. (Opcional) Secret no repositório
 
-| Nome do secret | Valor |
-|----------------|--------|
-| `FTP_PASSWORD` | senha FTP da InfinityFree |
+Se preferir, também pode criar em **Settings → Secrets and variables → Actions → Repository secrets**:
 
-**Onde:** repositório **gbrlsouza/syndicus** → Settings → **Secrets and variables** → **Actions** → **Repository secrets** (não use Environment secrets nem Dependabot).
+- Name: `FTP_PASSWORD`
 
-**Importante:** não commite senhas no Git.
+O job usa o environment `syndicus-deploy`; o secret do environment tem prioridade.
 
-Se a senha vazou em chat, e-mail ou print, altere-a no painel InfinityFree e atualize o secret `FTP_PASSWORD`.
+### 3. Enviar o workflow atualizado
 
-## Disparar deploy
-
-- **Automático:** `git push` na branch `main`
-- **Manual:** Actions → Deploy Syndicus → Run workflow
-
-## Estrutura no servidor
-
-Após o deploy, `/htdocs` deve conter:
-
-```
-/htdocs/
-  .htaccess
-  app/
-  public/
-  VERSION
+```bash
+git add .github/workflows/deploy.yml DEPLOY.md
+git commit -m "ci: corrigir leitura do FTP_PASSWORD"
+git push origin main
 ```
 
-## Observações
+### 4. Teste manual (se o secret ainda falhar)
 
-- Alterações feitas só pelo filemanager **não** voltam para o GitHub; prefira editar localmente e dar push.
-- Banco de dados: importe `app/DataBase/Schemma.sql` pelo phpMyAdmin da hospedagem quando necessário.
-- Em produção, `APP_ENV` detecta automaticamente que não é `localhost` e usa as credenciais MySQL da InfinityFree em `app/settings.php`.
+1. **Actions** → **Deploy Syndicus** → **Run workflow**
+2. Preencha **Senha FTP** com a senha da InfinityFree
+3. **Run workflow**
+
+Isso envia a senha direto no deploy, sem depender do secret.
+
+---
+
+## Dados FTP (já no workflow)
+
+| Campo | Valor |
+|-------|--------|
+| Host | `ftpupload.net` |
+| Usuário | `if0_42073908` |
+| Porta | `21` |
+| Pasta | `/htdocs/` |
+
+---
+
+## Erros comuns
+
+| Problema | Solução |
+|----------|---------|
+| Secret em **Environment** errado | Nome do environment deve ser `syndicus-deploy` |
+| Secret só em **Dependabot** / **Codespaces** | Use **Actions** ou **Environment** acima |
+| Repositório é **fork** | Secrets ficam no **seu** fork, não no original |
+| Nome errado | Exatamente `FTP_PASSWORD` (maiúsculas) |
+| Workflow na branch errada | Secrets funcionam no push para `main` com o workflow em `main` |
+
+---
+
+## Segurança
+
+Não commite senhas. Se a senha vazou, troque no painel InfinityFree e atualize o secret.
