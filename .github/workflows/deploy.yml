@@ -11,6 +11,11 @@ concurrency:
   group: deploy-syndicus
   cancel-in-progress: true
 
+env:
+  FTP_HOST: ftpupload.net
+  FTP_USERNAME: if0_42073908
+  FTP_PORT: 21
+
 jobs:
   deploy:
     if: ${{ !contains(github.event.head_commit.message, '[skip ci]') }}
@@ -20,6 +25,14 @@ jobs:
       contents: write
 
     steps:
+      - name: Exigir secret FTP_PASSWORD
+        if: ${{ secrets.FTP_PASSWORD == '' }}
+        run: |
+          echo "::error::Secret FTP_PASSWORD não encontrado."
+          echo "Crie em: Settings → Secrets and variables → Actions → New repository secret"
+          echo "Nome exato: FTP_PASSWORD"
+          exit 1
+
       - name: Checkout
         uses: actions/checkout@v4
         with:
@@ -39,25 +52,13 @@ jobs:
           echo "new=$NEW_VERSION" >> "$GITHUB_OUTPUT"
           echo "Versão: $CURRENT → $NEW_VERSION"
 
-      - name: Validar secrets FTP
-        run: |
-          missing=""
-          [ -z "${{ secrets.FTP_HOST }}" ] && missing="${missing}FTP_HOST "
-          [ -z "${{ secrets.FTP_USERNAME }}" ] && missing="${missing}FTP_USERNAME "
-          [ -z "${{ secrets.FTP_PASSWORD }}" ] && missing="${missing}FTP_PASSWORD "
-          if [ -n "$missing" ]; then
-            echo "::error::Secrets ausentes no repositório: $missing"
-            echo "Crie em: Settings → Secrets and variables → Actions → New repository secret"
-            exit 1
-          fi
-
       - name: Deploy to InfinityFree (FTP → /htdocs)
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
-          server: ${{ secrets.FTP_HOST }}
-          username: ${{ secrets.FTP_USERNAME }}
+          server: ${{ env.FTP_HOST }}
+          username: ${{ env.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          port: 21
+          port: ${{ env.FTP_PORT }}
           protocol: ftp
           local-dir: ./
           server-dir: /htdocs/

@@ -16,16 +16,17 @@ A versão exibida no site vem do arquivo `VERSION` (lido em `app/settings.php`).
 
 Repositório → **Settings** → **Secrets and variables** → **Actions** → **New repository secret**
 
-Crie **um secret por linha** (valores do painel FTP da conta `if0_42073908`):
+Host e usuário FTP já estão no workflow (`.github/workflows/deploy.yml`).
+
+Você só precisa criar **1 secret**:
 
 | Nome do secret | Valor |
 |----------------|--------|
-| `FTP_HOST` | `ftpupload.net` |
-| `FTP_USERNAME` | `if0_42073908` |
-| `FTP_PASSWORD` | sua senha FTP (só no GitHub, nunca no código) |
-| `FTP_PORT` | `21` (opcional; o workflow usa `21` se omitir) |
+| `FTP_PASSWORD` | senha FTP da InfinityFree |
 
-**Importante:** não commite senhas no Git. Use apenas os Secrets do GitHub.
+**Onde:** repositório **gbrlsouza/syndicus** → Settings → **Secrets and variables** → **Actions** → **Repository secrets** (não use Environment secrets nem Dependabot).
+
+**Importante:** não commite senhas no Git.
 
 Se a senha vazou em chat, e-mail ou print, altere-a no painel InfinityFree e atualize o secret `FTP_PASSWORD`.
 
