@@ -15,6 +15,8 @@
 [![Issues](https://img.shields.io/github/issues/GbrlSouza/syndicus?style=flat-square&color=E24B4A)](https://github.com/GbrlSouza/syndicus/issues)
 [![Top Language](https://img.shields.io/github/languages/top/GbrlSouza/syndicus?style=flat-square&color=7F77DD)](https://github.com/GbrlSouza/syndicus)
 
+[![Version](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/GbrlSouza/syndicus/main/.github/badges/version.json&style=flat-square)](https://github.com/GbrlSouza/syndicus)
+
 <br/>
 
 <a href="https://github.com/GbrlSouza/syndicus"><img src="https://img.shields.io/badge/Ver%20Repositório-1D9E75?style=for-the-badge&logo=github&logoColor=white" /></a>
