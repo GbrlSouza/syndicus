@@ -40,13 +40,13 @@ O **Syndicus** é um sistema web open source para gestão de condomínios, desen
 <tr>
 <td width="50%">
 
-**🏠 Gestão de Moradores**
+**🏠 Gestão de Moradores:**
 Cadastro completo de unidades, moradores e proprietários com histórico de ocupação.
 
 </td>
 <td width="50%">
 
-**💰 Controle Financeiro**
+**💰 Controle Financeiro:**
 Geração de boletos, controle de inadimplência e relatórios financeiros detalhados.
 
 </td>
@@ -54,13 +54,13 @@ Geração de boletos, controle de inadimplência e relatórios financeiros detal
 <tr>
 <td width="50%">
 
-**📅 Reservas**
+**📅 Reservas:**
 Agendamento de áreas comuns com calendário integrado e controle de conflitos.
 
 </td>
 <td width="50%">
 
-**📢 Comunicados**
+**📢 Comunicados:**
 Notificações internas, murais digitais e registro de ocorrências por unidade.
 
 </td>
