@@ -21,17 +21,17 @@ include './../app/Libraries/DataBase.php';
 </head>
 
 <body class="app-body">
-    <?php require APP_BREADCRUMB . '/Views/components/navbar.php'; ?>
+    <?php require APP_ROOT . '/Views/components/navbar.php'; ?>
 
     <div class="app-layout">
-        <?php require APP_BREADCRUMB . '/Views/components/sidebar.php'; ?>
+        <?php require APP_ROOT . '/Views/components/sidebar.php'; ?>
 
         <main class="app-main">
             <?php new Routs(); ?>
         </main>
     </div>
 
-    <?php require APP_BREADCRUMB . '/Views/components/footer.php'; ?>
+    <?php require APP_ROOT . '/Views/components/footer.php'; ?>
 
     <script src="<?= APP_URL; ?>/js/script.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

@@ -1,5 +1,7 @@
 .env
 app/.env
+public/.env
+vendor/
 .ftp-deploy-sync-state.json
 .DS_Store
 Thumbs.db
