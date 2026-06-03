@@ -1,29 +1,28 @@
 <div align="center">
 
-<img src="https://capsule-render.vercel.app/api?type=waving&color=1D9E75&height=140&section=header&text=Syndicus&fontSize=52&fontColor=ffffff&fontAlignY=38&desc=Sistema+de+gerenciamento+de+condomínios&descAlignY=60&descSize=16&descColor=b2f0db" width="100%" />
+<img src="https://capsule-render.vercel.app/api?type=waving&color=1e4a72&height=140&section=header&text=Syndicus&fontSize=52&fontColor=f1f5f9&fontAlignY=38&desc=Sistema+de+gerenciamento+de+condomínios&descAlignY=60&descSize=16&descColor=5eead4" width="100%" />
 
 <br/>
 
-[![PHP](https://img.shields.io/badge/PHP-8.2+-7F77DD?style=flat-square&logo=php&logoColor=white)](https://php.net)
-[![MySQL](https://img.shields.io/badge/MySQL-5.7+-378ADD?style=flat-square&logo=mysql&logoColor=white)](https://mysql.com)
-[![Bootstrap](https://img.shields.io/badge/Bootstrap-5-7952B3?style=flat-square&logo=bootstrap&logoColor=white)](https://getbootstrap.com)
-[![JavaScript](https://img.shields.io/badge/JavaScript-ES6-BA7517?style=flat-square&logo=javascript&logoColor=white)](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
-[![License](https://img.shields.io/github/license/GbrlSouza/syndicus?style=flat-square&color=1D9E75)](./LICENSE)
+[![Version](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/GbrlSouza/syndicus/main/.github/badges/version.json&style=flat-square&color=5eead4&labelColor=0f2d46)](https://github.com/GbrlSouza/syndicus)
+[![PHP](https://img.shields.io/badge/PHP-8.2+-1e4a72?style=flat-square&logo=php&logoColor=5eead4&color=5eead4&labelColor=0f2d46)](https://php.net)
+[![MySQL](https://img.shields.io/badge/MySQL-5.7+-0f2d46?style=flat-square&logo=mysql&logoColor=5eead4&color=5eead4&labelColor=0f2d46)](https://mysql.com)
+[![Bootstrap](https://img.shields.io/badge/Bootstrap-5-1e4a72?style=flat-square&logo=bootstrap&logoColor=5eead4&color=5eead4&labelColor=0f2d46)](https://getbootstrap.com)
+[![JavaScript](https://img.shields.io/badge/JavaScript-ES6-0f2d46?style=flat-square&logo=javascript&logoColor=5eead4&color=5eead4&labelColor=0f2d46)](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
+[![License](https://img.shields.io/github/license/GbrlSouza/syndicus?style=flat-square&color=14b8a6&labelColor=0f2d46)](./LICENSE)
 
-[![Last Commit](https://img.shields.io/github/last-commit/GbrlSouza/syndicus?style=flat-square&color=555)](https://github.com/GbrlSouza/syndicus/commits/main)
-[![Repo Size](https://img.shields.io/github/repo-size/GbrlSouza/syndicus?style=flat-square&color=555)](https://github.com/GbrlSouza/syndicus)
-[![Issues](https://img.shields.io/github/issues/GbrlSouza/syndicus?style=flat-square&color=E24B4A)](https://github.com/GbrlSouza/syndicus/issues)
-[![Top Language](https://img.shields.io/github/languages/top/GbrlSouza/syndicus?style=flat-square&color=7F77DD)](https://github.com/GbrlSouza/syndicus)
-
-[![Version](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/GbrlSouza/syndicus/main/.github/badges/version.json&style=flat-square)](https://github.com/GbrlSouza/syndicus)
+[![Last Commit](https://img.shields.io/github/last-commit/GbrlSouza/syndicus?style=flat-square&color=5eead4&labelColor=0f2d46)](https://github.com/GbrlSouza/syndicus/commits/main)
+[![Repo Size](https://img.shields.io/github/repo-size/GbrlSouza/syndicus?style=flat-square&color=5eead4&labelColor=0f2d46)](https://github.com/GbrlSouza/syndicus)
+[![Issues](https://img.shields.io/github/issues/GbrlSouza/syndicus?style=flat-square&color=5eead4&labelColor=0f2d46)](https://github.com/GbrlSouza/syndicus/issues)
+[![Top Language](https://img.shields.io/github/languages/top/GbrlSouza/syndicus?style=flat-square&color=5eead4&labelColor=0f2d46)](https://github.com/GbrlSouza/syndicus)
 
 <br/>
 
-<a href="https://github.com/GbrlSouza/syndicus"><img src="https://img.shields.io/badge/Ver%20Repositório-1D9E75?style=for-the-badge&logo=github&logoColor=white" /></a>
+<a href="https://github.com/GbrlSouza/syndicus"><img src="https://img.shields.io/badge/Ver%20Repositório-1e4a72?style=for-the-badge&logo=github&logoColor=5eead4" /></a>
 &nbsp;
-<a href="https://github.com/GbrlSouza/syndicus/issues"><img src="https://img.shields.io/badge/Reportar%20Issue-E24B4A?style=for-the-badge&logo=github&logoColor=white" /></a>
+<a href="https://github.com/GbrlSouza/syndicus/issues"><img src="https://img.shields.io/badge/Reportar%20Issue-0f2d46?style=for-the-badge&logo=github&logoColor=5eead4" /></a>
 &nbsp;
-<a href="https://github.com/GbrlSouza/syndicus/fork"><img src="https://img.shields.io/badge/Fork-555555?style=for-the-badge&logo=github&logoColor=white" /></a>
+<a href="https://github.com/GbrlSouza/syndicus/fork"><img src="https://img.shields.io/badge/Fork-14b8a6?style=for-the-badge&logo=github&logoColor=0f2d46" /></a>
 
 </div>
 
@@ -76,10 +75,10 @@ Notificações internas, murais digitais e registro de ocorrências por unidade.
 
 | Tecnologia | Versão mínima |
 |:-----------|:-------------|
-| ![PHP](https://img.shields.io/badge/PHP-8.2+-7F77DD?style=flat-square&logo=php&logoColor=white) | 8.2 |
-| ![MySQL](https://img.shields.io/badge/MySQL-378ADD?style=flat-square&logo=mysql&logoColor=white) | 5.7 |
-| ![XAMPP](https://img.shields.io/badge/XAMPP-FB7A24?style=flat-square&logo=xampp&logoColor=white) | 8.2+ |
-| ![Composer](https://img.shields.io/badge/Composer-885630?style=flat-square&logo=composer&logoColor=white) | 2.x |
+| ![PHP](https://img.shields.io/badge/PHP-8.2+-1e4a72?style=flat-square&logo=php&logoColor=5eead4) | 8.2 |
+| ![MySQL](https://img.shields.io/badge/MySQL-0f2d46?style=flat-square&logo=mysql&logoColor=5eead4) | 5.7 |
+| ![Composer](https://img.shields.io/badge/Composer-1e4a72?style=flat-square&logo=composer&logoColor=5eead4) | 2.x |
+| ![XAMPP](https://img.shields.io/badge/XAMPP-0f2d46?style=flat-square&logo=xampp&logoColor=5eead4) | 8.2+ |
 
 <br/>
 
@@ -101,7 +100,6 @@ cd syndicus
 **2. Instale as dependências**
 ```bash
 composer install
-npm install
 ```
 
 **3. Configure o ambiente**
@@ -170,8 +168,8 @@ Contribuições são bem-vindas! Siga os passos:
 
 Feito com ♥ por <a href="https://github.com/GbrlSouza"><b>GbrlSouza</b></a>
 
-[![MIT License](https://img.shields.io/badge/License-MIT-1D9E75?style=flat-square)](./LICENSE)
+[![MIT License](https://img.shields.io/badge/License-MIT-14b8a6?style=flat-square&labelColor=0f2d46)](./LICENSE)
 
-<img src="https://capsule-render.vercel.app/api?type=waving&color=1D9E75&height=80&section=footer" width="100%" />
+<img src="https://capsule-render.vercel.app/api?type=waving&color=1e4a72&height=80&section=footer" width="100%" />
 
 </div>
