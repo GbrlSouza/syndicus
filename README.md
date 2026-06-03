@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="https://capsule-render.vercel.app/api?type=waving&color=1e4a72&height=140&section=header&text=Syndicus&fontSize=52&fontColor=f1f5f9&fontAlignY=38&desc=Sistema+de+gerenciamento+de+condomínios&descAlignY=60&descSize=16&descColor=5eead4" width="100%" />
+<img src="https://capsule-render.vercel.app/api?type=waving&color=1e4a72&height=140&section=header&text=Syndicus&fontSize=52&fontColor=f1f5f9&fontAlignY=38&desc=Sistema+de+gerenciamento+de+condomínios&descAlignY=70&descSize=16&descColor=5eead4" width="100%" />
 
 <br/>
 
