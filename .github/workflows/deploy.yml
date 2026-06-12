@@ -63,6 +63,15 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Setup PHP and Composer
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2' 
+          tools: composer:v2
+
+      - name: Install Dependencies (Composer)
+        run: composer install --no-dev --optimize-autoloader --no-progress --no-interaction
+
       - name: Bump patch version
         id: version
         run: |
