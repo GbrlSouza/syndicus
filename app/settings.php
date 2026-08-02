@@ -1,8 +1,65 @@
 <?php
-require_once dirname(__DIR__) . '/vendor/autoload.php';
+$projectRoot = dirname(__DIR__);
+$autoloadFile = $projectRoot . '/vendor/autoload.php';
 
-$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
-$dotenv->load();
+if (is_file($autoloadFile)) {
+    require_once $autoloadFile;
+}
+
+if (class_exists('Dotenv\\Dotenv')) {
+    foreach ([$projectRoot, __DIR__] as $envPath) {
+        if (is_dir($envPath)) {
+            $dotenv = Dotenv\Dotenv::createImmutable($envPath);
+            $dotenv->load();
+            break;
+        }
+    }
+}
+
+function loadEnvironmentFile(string $path): void
+{
+    if (!is_file($path)) {
+        return;
+    }
+
+    $lines = file($path, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+
+    if ($lines === false) {
+        return;
+    }
+
+    foreach ($lines as $line) {
+        $line = trim($line);
+
+        if ($line === '' || str_starts_with($line, '#')) {
+            continue;
+        }
+
+        if (!str_contains($line, '=')) {
+            continue;
+        }
+
+        [$name, $value] = explode('=', $line, 2);
+        $name = trim($name);
+        $value = trim($value);
+
+        if ($name === '') {
+            continue;
+        }
+
+        if (!array_key_exists($name, $_ENV) && !array_key_exists($name, $_SERVER) && getenv($name) === false) {
+            putenv($name . '=' . $value);
+            $_ENV[$name] = $value;
+            $_SERVER[$name] = $value;
+        }
+    }
+}
+
+foreach ([$projectRoot, __DIR__] as $envPath) {
+    foreach (['.env', '.env.example'] as $fileName) {
+        loadEnvironmentFile($envPath . '/' . $fileName);
+    }
+}
 
 /** Ambiente */
 $host = $_SERVER['HTTP_HOST'] ?? 'localhost';
@@ -65,14 +122,21 @@ define('DB_PORT', '3306');
 define('DB_CHARSET', 'utf8mb4');
 define('DB_COLLATION', 'utf8mb4_unicode_ci');
 
+$envPrefix = APP_ENV === 'development' ? 'DB_' : 'DB_';
+
+$dbHost = $_ENV['DB_HOST_DEV'] ?? $_ENV['DB_HOST_PROD'] ?? '127.0.0.1';
+$dbDatabase = $_ENV['DB_DATABASE_DEV'] ?? $_ENV['DB_DATABASE_PROD'] ?? 'syndicus';
+$dbUsername = $_ENV['DB_USERNAME_DEV'] ?? $_ENV['DB_USERNAME_PROD'] ?? 'root';
+$dbPassword = $_ENV['DB_PASSWORD_DEV'] ?? $_ENV['DB_PASSWORD_PROD'] ?? '';
+
 if (APP_ENV === 'development') {
-    define('DB_HOST', $_ENV['DB_HOST_DEV']);
-    define('DB_DATABASE', $_ENV['DB_DATABASE_DEV']);
-    define('DB_USERNAME', $_ENV['DB_USERNAME_DEV']);
-    define('DB_PASSWORD', $_ENV['DB_PASSWORD_DEV']);
+    define('DB_HOST', $dbHost);
+    define('DB_DATABASE', $dbDatabase);
+    define('DB_USERNAME', $dbUsername);
+    define('DB_PASSWORD', $dbPassword);
 } else {
-    define('DB_HOST', $_ENV['DB_HOST_PROD']);
-    define('DB_DATABASE', $_ENV['DB_DATABASE_PROD']);
-    define('DB_USERNAME', $_ENV['DB_USERNAME_PROD']);
-    define('DB_PASSWORD', $_ENV['DB_PASSWORD_PROD']);
+    define('DB_HOST', $dbHost);
+    define('DB_DATABASE', $dbDatabase);
+    define('DB_USERNAME', $dbUsername);
+    define('DB_PASSWORD', $dbPassword);
 }
