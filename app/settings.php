@@ -8,10 +8,9 @@ if (is_file($autoloadFile)) {
 
 if (class_exists('Dotenv\\Dotenv')) {
     foreach ([$projectRoot, __DIR__] as $envPath) {
-        if (is_dir($envPath)) {
+        if (is_file($envPath . '/.env')) {
             $dotenv = Dotenv\Dotenv::createImmutable($envPath);
-            $dotenv->load();
-            break;
+            $dotenv->safeLoad();
         }
     }
 }
@@ -22,7 +21,10 @@ function loadEnvironmentFile(string $path): void
         return;
     }
 
-    $lines = file($path, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+    $lines = file(
+        $path,
+        FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES
+    );
 
     if ($lines === false) {
         return;
@@ -40,6 +42,7 @@ function loadEnvironmentFile(string $path): void
         }
 
         [$name, $value] = explode('=', $line, 2);
+
         $name = trim($name);
         $value = trim($value);
 
@@ -47,8 +50,13 @@ function loadEnvironmentFile(string $path): void
             continue;
         }
 
-        if (!array_key_exists($name, $_ENV) && !array_key_exists($name, $_SERVER) && getenv($name) === false) {
+        if (
+            !array_key_exists($name, $_ENV) &&
+            !array_key_exists($name, $_SERVER) &&
+            getenv($name) === false
+        ) {
             putenv($name . '=' . $value);
+
             $_ENV[$name] = $value;
             $_SERVER[$name] = $value;
         }
@@ -56,9 +64,7 @@ function loadEnvironmentFile(string $path): void
 }
 
 foreach ([$projectRoot, __DIR__] as $envPath) {
-    foreach (['.env', '.env.example'] as $fileName) {
-        loadEnvironmentFile($envPath . '/' . $fileName);
-    }
+    loadEnvironmentFile($envPath . '/.env');
 }
 
 /** Ambiente */
